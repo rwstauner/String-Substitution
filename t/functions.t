@@ -22,7 +22,6 @@ my @tests = (
 	['^\d{0,3}$', '', {'12345', '12345'}],
 	[qr'(^(; )+|(; ?)+$)', '', {'; Hi; ; There; ; ', 'Hi; ; There', 'Hi; ; ; There; ; ' => 'Hi; ; ; There', '; ; Hi; ; There' => 'Hi; ; There'}],
 	[qr'(; ){2,}', '; ', {'Hi; There', => 'Hi; There', 'Hi; ; There' => 'Hi; There', 'Hi; ; ; There' => 'Hi; There'}],
-	# the (.)? doesn't match in 'Rd' and is referenced twice in the replacement, hence 2 warnings
 	[qr'^[Rr](.)?d$', 'gr$1$1n', {'Rd' => 'grn', 'red' => 'green', rod => 'groon'}, 2],
 	[qr'^[Rr](.?)d$', 'gr$1$1n', {'Rd' => 'grn', 'red' => 'green', rud => 'gruun'}],
 	[qr'(o)(.)',      '$1$2$3',  {'giblet' => 'giblet', 'goober' => 'goober'}, 1],
@@ -34,20 +33,16 @@ my @tests = (
 );
 
 sub sum { my $s = 0; $s += $_ for @_; $s }
-plan tests => sum(map { scalar(values %{$_->[2]}) + 1 + ($_->[3]||0) } @tests); # tests + warnings
+plan tests => sum(map { scalar(values %{$_->[2]}) } @tests); # tests + warnings
 
 foreach my $test ( @tests ){
 	my ($pattern, $replacement, $hash, $warning) = (@$test, 0);
-	my $warned = 0;
 	while( my ($string, $expected) = each %$hash ){
 		my $s = $string;
 
-		local $SIG{__WARN__} = sub {
-			++$warned;
-			like($_[0], qr/uninitialized/, "warning uninitialized ($s)");
-		};
+		# ignore 'uninitialized' warnings if we know we're expecting them
+		local $SIG{__WARN__} = sub { warn($_[0]) unless $_[0] =~ qr/uninitialized/ && $warning; };
 
 		is(gsub($s, $pattern, $replacement), $expected, "gsub: '$s' =~ s{$pattern}{$replacement}");
 	}
-	ok($warned == $warning, 'expected number of warnings');
 }
