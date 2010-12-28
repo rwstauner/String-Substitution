@@ -10,7 +10,7 @@ package String::Gsub::Simple;
 
 use strict;
 use warnings;
-use Sub::Exporter;
+use Sub::Exporter 0.982;
 {
 	my $exports = {
 		exports => [ qw(gsub) ],
