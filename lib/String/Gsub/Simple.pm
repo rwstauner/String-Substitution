@@ -30,7 +30,7 @@ sub gsub {
 		s/$pattern/
 			my $matched = last_match_vars();
 			interpolate_match_vars($replacement, $matched);
-		/xge;
+		/ge;
 	return $data;
 }
 
