@@ -28,16 +28,56 @@ sub gsub {
 	my ($data, $pattern, $replacement) = @_;
 	$data =~
 		s/$pattern/
-			# store the match vars from the \$pattern
-			my $matched = do {
-				no strict 'refs';
-				['', map { ($$_) || '' } ( 1 .. $#- )];
-			};
-			# substitute them into \$replacement
-			(my $rep = $replacement) =~
-				s!\$(?:\{(\d+)\}|(\d))!$matched->[($1 or $2)]!ge;
-			$rep;/xge;
+			my $matched = last_match_vars();
+			interpolate_match_vars($replacement, $matched);
+		/xge;
 	return $data;
+}
+
+=func interpolate_match_vars
+
+	$interpolated = interpolate($string, \@match_vars);
+
+Replaces any digit variables in the string
+with the corresponding elements from the match_vars array
+(returned from L</last_match_vars>).
+
+Substitutes single and multiple digits such as C<$1> and C<${12}>.
+
+=cut
+
+sub interpolate_match_vars {
+	my ($replacement, $matched) = @_;
+	(my $str = $replacement) =~
+		s/\$(?:\{(\d+)\}|(\d))/$matched->[($1 || $2)]/g;
+	return $str;
+}
+
+=func last_match_vars
+
+	$match_vars = last_match_vars();
+
+Store the numeric match vars (C<$1>) from the last C<m//>
+in an arrayref.
+
+The first element of the array is undef
+to make it simple and clear that the digits
+correspond to their index in the array:
+
+	$m = [undef, $1, $2]
+	$m->[1] ; # == $1
+	$m->[2] ; # == $2
+
+This can be useful when you want to save the captured groups from
+a previous C<m//> while doing another C<m//>.
+
+This function is used by the substitution functions.
+
+=cut
+
+sub last_match_vars {
+	no strict 'refs';
+	[undef, map { ($$_) || '' } ( 1 .. $#- )];
 }
 
 1;
