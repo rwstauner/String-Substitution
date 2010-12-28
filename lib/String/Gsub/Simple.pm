@@ -42,6 +42,8 @@ sub gsub {
 
 1;
 
+=for stopwords gsub runtime
+
 =head1 DESCRIPTION
 
 This module is a collection of functions to enable
