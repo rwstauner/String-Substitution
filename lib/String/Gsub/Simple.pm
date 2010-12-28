@@ -26,11 +26,7 @@ use Sub::Exporter 0.982;
 
 sub gsub {
 	my ($data, $pattern, $replacement) = @_;
-	$data =~
-		s/$pattern/
-			my $matched = last_match_vars();
-			interpolate_match_vars($replacement, $matched);
-		/ge;
+	$data =~ s/$pattern/_replacement_sub($replacement)->(last_match_vars());/ge;
 	return $data;
 }
 
@@ -79,6 +75,16 @@ This function is used by the substitution functions.
 sub last_match_vars {
 	no strict 'refs';
 	[undef, map { ($$_) || '' } ( 1 .. $#- )];
+}
+
+# Return a sub that will get matched vars array passed to it
+
+sub _replacement_sub {
+	my ($rep) = @_;
+	# if $rep is not a sub, assume it's a string to be interpolated
+	ref $rep
+		? $rep
+		: sub { interpolate_match_vars($rep, @_); };
 }
 
 1;
