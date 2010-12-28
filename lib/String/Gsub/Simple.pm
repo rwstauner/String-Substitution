@@ -48,8 +48,9 @@ Substitutes single and multiple digits such as C<$1> and C<${12}>.
 
 sub interpolate_match_vars {
 	my ($replacement, $matched) = @_;
-	(my $str = $replacement) =~
-		s/\$(?:\{(\d+)\}|(\d))/$matched->[($1 || $2)]/g;
+	my $str = $replacement;
+	$str =~ s/\$\{(\d+)\}/$matched->[$1]/g;
+	$str =~   s/\$(\d+)/$matched->[$1]/g;
 	return $str;
 }
 
