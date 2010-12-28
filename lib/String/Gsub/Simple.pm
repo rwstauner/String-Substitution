@@ -56,6 +56,15 @@ from input at runtime and process the substitution without doing an C<eval>.
 The replacement string may contain [numbered] match vars (C<$1> or C<${1}>)
 which will be interpolated (by using another C<s///> rather than C<eval>).
 
+=head1 BUGS AND LIMITATIONS
+
+Probably a lot.
+
+The replacement string only I<interpolates> (term used loosely)
+numbered match vars (like C<$1> or C<${12}>).
+
+=cut
+
 =head1 SEE ALSO
 
 =begin :list
