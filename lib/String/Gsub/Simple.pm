@@ -56,6 +56,13 @@ from input at runtime and process the substitution without doing an C<eval>.
 The replacement string may contain [numbered] match vars (C<$1> or C<${1}>)
 which will be interpolated (by using another C<s///> rather than C<eval>).
 
+Other names for this module could have been:
+
+=for :list
+* C<String::Gsub::Simplistic>
+* C<String::Gsub::NoEval>
+* C<String::Gsub::Dumb>
+
 =head1 BUGS AND LIMITATIONS
 
 Probably a lot.
