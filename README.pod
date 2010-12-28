@@ -1,0 +1,14 @@
+=for stopwords runtime
+
+=head1 String::Gsub::Simple
+
+This module is a collection of functions to enable
+(global) substitution on a string using a replacement string or function
+created at runtime.
+
+It was designed to take in the string, pattern, and replacement string
+from input at runtime and process the substitution without doing an C<eval>.
+
+See module POD for more information.
+
+=cut
