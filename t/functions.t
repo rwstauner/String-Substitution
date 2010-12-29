@@ -38,7 +38,8 @@ my @tests = (
 );
 
 sub sum { my $s = 0; $s += $_ for @_; $s }
-plan tests => sum(map { map { 6 + 3 * (@$_||1) } values %{$_->[2]} } @tests); # tests
+# sum( (c + m + cc + cm) + ((c loop + m loop + cc loop + cm loop)) * (expected strings)
+plan tests => sum(map { map { (2 + 4 + 5) + ((1 + 2 + 2 + 1) * (@$_||1)) } values %{$_->[2]} } @tests);
 
 foreach my $test ( @tests ){
 	my ($pattern, $replacement, $hash, $warning) = (@$test, 0);
@@ -55,6 +56,7 @@ foreach my $test ( @tests ){
 		local $SIG{__WARN__} = sub { warn($_[0]) unless $_[0] =~ qr/uninitialized/ && $warning; };
 
 		{
+			# copy
 			my $s = $string;
 			my ($suffix, $gsub_n, $gsub_s, $sub_n, $sub_s) = test_vars('_copy');
 
@@ -68,6 +70,7 @@ foreach my $test ( @tests ){
 		}
 
 		{
+			# modify
 			my $s = $string;
 			my ($suffix, $gsub_n, $gsub_s, $sub_n, $sub_s) = test_vars('_modify');
 
@@ -84,6 +87,38 @@ foreach my $test ( @tests ){
 			}
 			is($s, $expected, " $sub_n completed successfully");
 			is($m, ($c||0), " $sub_n did same number of substitutions ($m) as $gsub_n: ($c)");
+		}
+
+		{
+			my $s = $string;
+			my ($suffix, $gsub_n, $gsub_s, $sub_n, $sub_s) = test_vars('_context');
+
+			# copy
+			my $copy = $gsub_s->($s, $pattern, $replacement);
+			is($copy, $expected, "$gsub_n: '$s' =~ s{$pattern}{$replacement}");
+			is($s, $string, "scalar context $gsub_n no modification");
+
+			# modify
+			$gsub_s->($s, $pattern, $replacement);
+			is($s, $expected, "void context $gsub_n modified variable");
+
+			# copy
+			$s = $string;
+			foreach my $exp ( @$expectations ){ my $orig = $s;
+				my $copy = $sub_s->($s, $pattern, $replacement);
+				is($copy, $exp, " $sub_n changed '$orig' => '$exp'");
+				is($s, $orig, "scalar context $sub_n no modification");
+				$s = $copy;
+			}
+			is($s, $expected, " $sub_n completed successfully");
+
+			# modify
+			$s = $string;
+			foreach my $exp ( @$expectations ){ my $orig = $s;
+				$sub_s->($s, $pattern, $replacement);
+				is($s, $exp, " $sub_n changed '$orig' => '$exp' in-place");
+			}
+			is($s, $expected, " $sub_n completed successfully");
 		}
 	}
 }
