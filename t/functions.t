@@ -3,6 +3,8 @@ use warnings;
 use Test::More;
 use String::Gsub::Simple ();
 
+# TODO: test 'dollar \$1'
+
 # [pattern, replacement, {in => [sub1, sub2, finalsub], nosub => []}, (# of warnings for uninitialized)]
 my @tests = (
 	['(e)(.)',     '$1-$2-', {hello => ['he-l-lo']}],

@@ -96,6 +96,7 @@ Substitutes single and multiple digits such as C<$1> and C<${12}>.
 sub interpolate_match_vars {
 	my ($replacement, $matched) = @_;
 	my $str = $replacement;
+	# TODO: ignore/test '\$1'
 	$str =~ s/\$\{(\d+)\}/$matched->[$1]/g;
 	$str =~   s/\$(\d+)/$matched->[$1]/g;
 	return $str;
