@@ -3,18 +3,29 @@ package String::Gsub::Simple;
 
 =head1 SYNOPSIS
 
-	use String::Gsub::Simple qw(gsub);
-	gsub($string, $pattern, $replacement);
+	use String::Gsub::Simple -copy;
+
+	my $subbed = gsub($string, $pattern, $replacement);
 
 =cut
+
+# TODO: document copy/modify/context options
 
 use strict;
 use warnings;
 use Sub::Exporter 0.982;
 {
 	my $exports = {
-		exports => [ qw(gsub) ],
+		exports => [qw(interpolate_match_vars last_match_vars)],
+		groups => {}
 	};
+	my @funcs = qw(sub gsub);
+	foreach my $suffix ( qw(copy modify context) ){
+		push(@{ $exports->{exports} }, map { "${_}_${suffix}" } @funcs);
+		$exports->{groups}->{$suffix} = [
+			map { ("${_}_${suffix}" => { -as => $_ }) } @funcs
+		];
+	}
 	Sub::Exporter::setup_exporter($exports);
 }
 
