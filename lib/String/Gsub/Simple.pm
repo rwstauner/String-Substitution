@@ -80,7 +80,6 @@ sub gsub_context {
 		? gsub_copy(@_)
 		: gsub_modify(@_);
 }
-*gsub = \&gsub_context;
 
 =func interpolate_match_vars
 
@@ -190,7 +189,6 @@ sub sub_context {
 		? sub_copy(@_)
 		: sub_modify(@_);
 }
-*sub = \&sub_context;
 
 1;
 
