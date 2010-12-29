@@ -18,16 +18,38 @@ use Sub::Exporter 0.982;
 	Sub::Exporter::setup_exporter($exports);
 }
 
-=func gsub
+=func gsub_copy
 
-	gsub($str, qr/pattern/, 'replacement $1');
+	$subbed = gsub_copy($str, $pattern, $replacement);
+	# $str unchanged
+
+Perform global substitution on a copy of the string and return the copy.
 
 =cut
 
-sub gsub {
+sub gsub_copy {
 	my ($data, $pattern, $replacement) = @_;
-	$data =~ s/$pattern/_replacement_sub($replacement)->(last_match_vars());/ge;
+	$data =~ s/$pattern/
+		_replacement_sub($replacement)->(last_match_vars());/ge;
 	return $data;
+}
+*gsub = \&gsub_copy;
+
+=func gsub_modify
+
+	gsub_modify($str, $pattern, $replacement);
+	# $str has been modified
+
+Perform global substitution and modify the string.
+Returns the result of the C<s///> operator
+(number of substitutions performed if matched, empty string if not).
+
+=cut
+
+sub gsub_modify {
+	my ($data, $pattern, $replacement) = @_;
+	return $_[0] =~ s/$pattern/
+		_replacement_sub($replacement)->(last_match_vars());/ge;
 }
 
 =func interpolate_match_vars
