@@ -10,6 +10,7 @@ package String::Gsub::Simple;
 =cut
 
 # TODO: document copy/modify/context options
+# TODO: document/test replacement as sub rather than string
 
 use strict;
 use warnings;
