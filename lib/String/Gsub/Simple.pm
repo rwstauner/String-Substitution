@@ -109,6 +109,40 @@ sub _replacement_sub {
 		: sub { interpolate_match_vars($rep, @_); };
 }
 
+=func sub_copy
+
+	$subbed = sub_copy($str, $pattern, $replacement);
+	# $str unchanged
+
+Perform global substitution on a copy of the string and return the copy.
+
+=cut
+
+sub sub_copy {
+	my ($data, $pattern, $replacement) = @_;
+	$data =~ s/$pattern/
+		_replacement_sub($replacement)->(last_match_vars());/e;
+	return $data;
+}
+*sub = \&sub_copy;
+
+=func sub_modify
+
+	sub_modify($str, $pattern, $replacement);
+	# $str has been modified
+
+Perform global substitution and modify the string.
+Returns the result of the C<s///> operator
+(number of substitutions performed if matched, empty string if not).
+
+=cut
+
+sub sub_modify {
+	my ($data, $pattern, $replacement) = @_;
+	return $_[0] =~ s/$pattern/
+		_replacement_sub($replacement)->(last_match_vars());/e;
+}
+
 1;
 
 =for stopwords gsub runtime
