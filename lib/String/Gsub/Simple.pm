@@ -33,7 +33,6 @@ sub gsub_copy {
 		_replacement_sub($replacement)->(last_match_vars());/ge;
 	return $data;
 }
-*gsub = \&gsub_copy;
 
 =func gsub_modify
 
@@ -51,6 +50,26 @@ sub gsub_modify {
 	return $_[0] =~ s/$pattern/
 		_replacement_sub($replacement)->(last_match_vars());/ge;
 }
+
+=func gsub_context
+
+	gsub_context($str, $pattern, $replacement);
+	# $str has been modified
+	
+	$subbed = gsub_context($str, $pattern, $replacement);
+	# $str unchanged
+
+If called in a void context this function calls L</gsub_modify>.
+Otherwise calls L</gsub_copy>.
+
+=cut
+
+sub gsub_context {
+	return defined wantarray
+		? gsub_copy(@_)
+		: gsub_modify(@_);
+}
+*gsub = \&gsub_context;
 
 =func interpolate_match_vars
 
@@ -124,7 +143,6 @@ sub sub_copy {
 		_replacement_sub($replacement)->(last_match_vars());/e;
 	return $data;
 }
-*sub = \&sub_copy;
 
 =func sub_modify
 
@@ -142,6 +160,26 @@ sub sub_modify {
 	return $_[0] =~ s/$pattern/
 		_replacement_sub($replacement)->(last_match_vars());/e;
 }
+
+=func sub_context
+
+	sub_context($str, $pattern, $replacement);
+	# $str has been modified
+	
+	$subbed = sub_context($str, $pattern, $replacement);
+	# $str unchanged
+
+If called in a void context this function calls L</sub_modify>.
+Otherwise calls L</sub_copy>.
+
+=cut
+
+sub sub_context {
+	return defined wantarray
+		? sub_copy(@_)
+		: sub_modify(@_);
+}
+*sub = \&sub_context;
 
 1;
 
