@@ -92,14 +92,43 @@ with the corresponding elements from the match_vars array
 
 Substitutes single and multiple digits such as C<$1> and C<${12}>.
 
+A literal '$1' can be escaped/backslashed in the normal way.
+Any escaped (backslashed) characters will remain in the string
+and the backslash will be removed (also counts for doubled backslashes):
+
+	$string = 'the';
+	$pattern = 't(h)e';
+	
+	# replacement => output
+	
+	# '-$1-'        => '-h-'
+	# '-\\$1-'      => '-$1-'
+	# '-\\\\$1-'    => '-\\h-'
+	# '-\\\\\\$1-'  => '-\\$1-'
+	# '-\\x\\$1-'   => '-x$1-'
+	# '-\\x\\\\$1-' => '-x\\h-'
+
 =cut
 
 sub interpolate_match_vars {
 	my ($replacement, $matched) = @_;
 	my $str = $replacement;
-	# TODO: ignore/test '\$1'
-	$str =~ s/\$\{(\d+)\}/$matched->[$1]/g;
-	$str =~   s/\$(\d+)/$matched->[$1]/g;
+	$str =~
+		s/
+			(?:
+				\\(.)                  # grab escaped characters (including $)
+			|
+				(?:
+					\$\{([1-9]\d*)\}   # match "${1}"
+				|
+					\$  ([1-9]\d*)     # match "$1"
+				)
+			)
+		/
+			defined $1
+				? $1                   # if something was escaped drop the \\
+				: $matched->[$2 || $3] # else use braced or unbraced number
+		/xge;
 	return $str;
 }
 
