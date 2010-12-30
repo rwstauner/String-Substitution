@@ -64,7 +64,7 @@ sub gsub_modify {
 
 	gsub_context($string, $pattern, $replacement);
 	# $string has been modified
-	
+
 	$subbed = gsub_context($string, $pattern, $replacement);
 	# $string unchanged
 
@@ -95,9 +95,9 @@ and the backslash will be removed (also counts for doubled backslashes):
 
 	$string = 'the';
 	$pattern = 't(h)e';
-	
+
 	# replacement => output
-	
+
 	# '-$1-'        => '-h-'
 	# '-\\$1-'      => '-$1-'
 	# '-\\\\$1-'    => '-\\h-'
@@ -222,7 +222,7 @@ sub sub_modify {
 
 	sub_context($string, $pattern, $replacement);
 	# $string has been modified
-	
+
 	$subbed = sub_context($string, $pattern, $replacement);
 	# $string unchanged
 
@@ -294,10 +294,10 @@ to allow you to do other pattern matching without losing those variables.
 
 	# can also use @_ (same as above)
 	gsub($string, $pattern, sub { uc $_[1] });
-	
+
 	# which is essentially:
 	# $string =~ s/$pattern/ $codref->( last_match_vars() );/e
-	
+
 	# which allows you to get complicated (an example from t/functions.t):
 	gsub(($string = 'mod'), '([a-z]+)',
 		sub { (my $t = $1) =~ s/(.)/ord($1)/ge; "$_[1] ($1) => $t" });
