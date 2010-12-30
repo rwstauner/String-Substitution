@@ -87,12 +87,12 @@ sub gsub_context {
 	$interpolated = interpolate($string, \@match_vars);
 
 Replaces any digit variables in the string
-with the corresponding elements from the match_vars array
+with the corresponding elements from the match_vars arrayref
 (returned from L</last_match_vars>).
 
 Substitutes single and multiple digits such as C<$1> and C<${12}>.
 
-A literal '$1' can be escaped/backslashed in the normal way.
+A literal C<'$1'> can be escaped/backslashed in the normal way.
 Any escaped (backslashed) characters will remain in the string
 and the backslash will be removed (also counts for doubled backslashes):
 
@@ -136,7 +136,7 @@ sub interpolate_match_vars {
 
 	$match_vars = last_match_vars();
 
-Store the numeric match vars (C<$1>) from the last C<m//>
+Store the numeric match vars (C<$1>, C<$2>, ...) from the last C<m//>
 in an arrayref.
 
 The first element of the array is undef
