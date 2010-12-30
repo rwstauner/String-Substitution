@@ -36,6 +36,9 @@ my @tests = (
 	[qr'^0$', '0-0-0 0:0:0', {0 => ['0-0-0 0:0:0'], 20101228 => []} ],
 	[qr'(\d{4})(\d{2})(\d{2})', '$1/$2/$3 00:00:00', {20101228 => ['2010/12/28 00:00:00'], 201012 => []} ],
 
+	[qr/b o o/x,  'yah', {'b o o' => [], 'boo' => ['yah'], 'BoO' => []}],
+	[qr/b o o/xi, 'yah', {'b o o' => [], 'boo' => ['yah'], 'BoO' => ['yah']}],
+
 	['(e)(.)',     '$1-$2-', {hello => ['he-l-lo']}],
 	# in single quotes 1 backslash is the same as 2
 	# these two are equal:
