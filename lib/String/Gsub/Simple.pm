@@ -250,6 +250,7 @@ Probably a lot.
 
 The replacement string only I<interpolates> (term used loosely)
 numbered match vars (like C<$1> or C<${12}>).
+See L</interpolate_match_vars> for more information.
 
 =cut
 
