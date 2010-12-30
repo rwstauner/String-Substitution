@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use String::Gsub::Simple -copy;
+use String::Substitution -copy;
 
 my @names = qw(string pattern replacement);
 my %vars;

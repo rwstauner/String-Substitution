@@ -1,6 +1,6 @@
 =for stopwords runtime
 
-=head1 String::Gsub::Simple
+=head1 String::Substitution
 
 This module is a collection of functions to enable
 (global) substitution on a string using a replacement string or function

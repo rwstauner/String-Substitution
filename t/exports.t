@@ -6,7 +6,7 @@ use Test::More tests => 1 + (3 * 2) + 1 + 1;
 # test that we set up Sub::Exporter correctly
 
 my $testmodprefix = 'Local::Test_';
-my $mod = 'String::Gsub::Simple';
+my $mod = 'String::Substitution';
 require_ok($mod);
 
 foreach my $suffix ( qw(copy modify context) ){

@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-use String::Gsub::Simple ();
+use String::Substitution ();
 
 # [pattern, replacement, {in => [sub1, sub2, finalsub], nosub => []}, (# of warnings for uninitialized)]
 my @tests = (
@@ -174,5 +174,5 @@ foreach my $test ( @tests ){
 
 sub test_vars {
 	my $suffix = shift;
-	return ($suffix, map { ("${_}$suffix", \&{"String::Gsub::Simple::${_}$suffix"}) } qw(gsub sub));
+	return ($suffix, map { ("${_}$suffix", \&{"String::Substitution::${_}$suffix"}) } qw(gsub sub));
 }

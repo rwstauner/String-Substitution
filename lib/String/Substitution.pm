@@ -1,9 +1,9 @@
-package String::Gsub::Simple;
+package String::Substitution;
 # ABSTRACT: Simple runtime [g]sub functions
 
 =head1 SYNOPSIS
 
-	use String::Gsub::Simple -copy;
+	use String::Substitution -copy;
 
 	my $subbed = gsub($string, $pattern, $replacement);
 
@@ -253,13 +253,6 @@ from input at runtime and process the substitution without doing an C<eval>.
 The replacement string may contain [numbered] match vars (C<$1> or C<${1}>)
 which will be interpolated (by using another C<s///> rather than C<eval>).
 
-Other names for this module could have been:
-
-=for :list
-* C<String::Gsub::Simplistic>
-* C<String::Gsub::NoEval>
-* C<String::Gsub::Dumb>
-
 =head1 USAGE
 
 The C<sub_*> and C<gsub_*> functions come in three variants:
@@ -331,27 +324,27 @@ but will reference the variation you specified.
 Surely it is more clear with examples:
 
 	package Local::WithCopy;
-	use String::Gsub::Simple -copy;
-	# now \&Local::WithCopy::gsub == \&String::Gsub::Simple::gsub_copy
+	use String::Substitution -copy;
+	# now \&Local::WithCopy::gsub == \&String::Substitution::gsub_copy
 
 	package Local::WithModify;
-	use String::Gsub::Simple -modify;
-	# now \&Local::WithModify::gsub == \&String::Gsub::Simple::gsub_modify
+	use String::Substitution -modify;
+	# now \&Local::WithModify::gsub == \&String::Substitution::gsub_modify
 
 	package Local::WithContext;
-	use String::Gsub::Simple -context;
-	# now \&Local::WithContext::gsub == \&String::Gsub::Simple::gsub_context
+	use String::Substitution -context;
+	# now \&Local::WithContext::gsub == \&String::Substitution::gsub_context
 
-B<Note> that C<String::Gsub::Simple> does not actually have functions
+B<Note> that C<String::Substitution> does not actually have functions
 named C<sub> and C<gsub>, so you cannot do this:
 
-	$subbed = String::Gsub::Simple::gsub($string, $pattern, $replacement);
+	$subbed = String::Substitution::gsub($string, $pattern, $replacement);
 
 But you are free to use the full names (with suffixes):
 
-	$subbed = String::Gsub::Simple::gsub_copy($string, $pattern, $replacement);
-	String::Gsub::Simple::gsub_modify($string, $pattern, $replacement);
-	String::Gsub::Simple::gsub_context($string, $pattern, $replacement);
+	$subbed = String::Substitution::gsub_copy($string, $pattern, $replacement);
+	String::Substitution::gsub_modify($string, $pattern, $replacement);
+	String::Substitution::gsub_context($string, $pattern, $replacement);
 
 That is the magic of L<Sub::Exporter>.
 
@@ -382,7 +375,6 @@ I decided to polish up an old function I had written a while back
 and try to make it reusable.
 
 Plus I thought the implementation could be simpler.
-Hence the name.  I hope this is simple (at least to use).
 
 =end :list
 
