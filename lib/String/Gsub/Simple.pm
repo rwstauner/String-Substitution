@@ -32,24 +32,24 @@ use Sub::Exporter 0.982;
 
 =func gsub_copy
 
-	$subbed = gsub_copy($str, $pattern, $replacement);
-	# $str unchanged
+	$subbed = gsub_copy($string, $pattern, $replacement);
+	# $string unchanged
 
 Perform global substitution on a copy of the string and return the copy.
 
 =cut
 
 sub gsub_copy {
-	my ($data, $pattern, $replacement) = @_;
-	$data =~ s/$pattern/
+	my ($string, $pattern, $replacement) = @_;
+	$string =~ s/$pattern/
 		_replacement_sub($replacement)->(last_match_vars());/ge;
-	return $data;
+	return $string;
 }
 
 =func gsub_modify
 
-	gsub_modify($str, $pattern, $replacement);
-	# $str has been modified
+	gsub_modify($string, $pattern, $replacement);
+	# $string has been modified
 
 Perform global substitution and modify the string.
 Returns the result of the C<s///> operator
@@ -58,18 +58,18 @@ Returns the result of the C<s///> operator
 =cut
 
 sub gsub_modify {
-	my ($data, $pattern, $replacement) = @_;
+	my ($string, $pattern, $replacement) = @_;
 	return $_[0] =~ s/$pattern/
 		_replacement_sub($replacement)->(last_match_vars());/ge;
 }
 
 =func gsub_context
 
-	gsub_context($str, $pattern, $replacement);
-	# $str has been modified
+	gsub_context($string, $pattern, $replacement);
+	# $string has been modified
 	
-	$subbed = gsub_context($str, $pattern, $replacement);
-	# $str unchanged
+	$subbed = gsub_context($string, $pattern, $replacement);
+	# $string unchanged
 
 If called in a void context this function calls L</gsub_modify>.
 Otherwise calls L</gsub_copy>.
@@ -112,8 +112,8 @@ and the backslash will be removed (also counts for doubled backslashes):
 
 sub interpolate_match_vars {
 	my ($replacement, $matched) = @_;
-	my $str = $replacement;
-	$str =~
+	my $string = $replacement;
+	$string =~
 		s/
 			(?:
 				\\(.)                  # grab escaped characters (including $)
@@ -129,7 +129,7 @@ sub interpolate_match_vars {
 				? $1                   # if something was escaped drop the \\
 				: $matched->[$2 || $3] # else use braced or unbraced number
 		/xge;
-	return $str;
+	return $string;
 }
 
 =func last_match_vars
@@ -171,24 +171,24 @@ sub _replacement_sub {
 
 =func sub_copy
 
-	$subbed = sub_copy($str, $pattern, $replacement);
-	# $str unchanged
+	$subbed = sub_copy($string, $pattern, $replacement);
+	# $string unchanged
 
 Perform global substitution on a copy of the string and return the copy.
 
 =cut
 
 sub sub_copy {
-	my ($data, $pattern, $replacement) = @_;
-	$data =~ s/$pattern/
+	my ($string, $pattern, $replacement) = @_;
+	$string =~ s/$pattern/
 		_replacement_sub($replacement)->(last_match_vars());/e;
-	return $data;
+	return $string;
 }
 
 =func sub_modify
 
-	sub_modify($str, $pattern, $replacement);
-	# $str has been modified
+	sub_modify($string, $pattern, $replacement);
+	# $string has been modified
 
 Perform global substitution and modify the string.
 Returns the result of the C<s///> operator
@@ -197,18 +197,18 @@ Returns the result of the C<s///> operator
 =cut
 
 sub sub_modify {
-	my ($data, $pattern, $replacement) = @_;
+	my ($string, $pattern, $replacement) = @_;
 	return $_[0] =~ s/$pattern/
 		_replacement_sub($replacement)->(last_match_vars());/e;
 }
 
 =func sub_context
 
-	sub_context($str, $pattern, $replacement);
-	# $str has been modified
+	sub_context($string, $pattern, $replacement);
+	# $string has been modified
 	
-	$subbed = sub_context($str, $pattern, $replacement);
-	# $str unchanged
+	$subbed = sub_context($string, $pattern, $replacement);
+	# $string unchanged
 
 If called in a void context this function calls L</sub_modify>.
 Otherwise calls L</sub_copy>.
