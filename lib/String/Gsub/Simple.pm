@@ -366,6 +366,9 @@ The replacement string only I<interpolates> (term used loosely)
 numbered match vars (like C<$1> or C<${12}>).
 See L</interpolate_match_vars> for more information.
 
+This module does B<not> save or interpolate C<$&>
+to avoid the "considerable performance penalty" (see L<perlvar>).
+
 =cut
 
 =head1 SEE ALSO
