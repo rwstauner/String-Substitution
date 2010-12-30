@@ -9,7 +9,6 @@ package String::Gsub::Simple;
 
 =cut
 
-# TODO: document copy/modify/context options
 # TODO: document/test replacement as sub rather than string
 
 use strict;
@@ -243,6 +242,72 @@ Other names for this module could have been:
 * C<String::Gsub::Simplistic>
 * C<String::Gsub::NoEval>
 * C<String::Gsub::Dumb>
+
+=head1 USAGE
+
+The C<sub_*> and C<gsub_*> functions come in three variants:
+
+=begin :list
+
+* C<copy> - Performs the substitution on a copy and returns the copy.
+
+* C<modify> - Modifies the variable in-place (just like C<< $s =~ s/// >>).
+
+=item *
+
+C<context> - Guess by the context which version to use.
+In void context execution will pass to the C<modify> variant,
+otherwise pass to the C<copy> variant.
+It's probably best to use C<copy> or C<modify> explicitly
+but the choice is yours.
+
+=end :list
+
+See L</FUNCTIONS> for more information about each one.
+
+=head1 EXPORTS
+
+This module exports nothing by default.
+All functions documented in this POD are available for export upon request.
+
+This module uses L<Sub::Exporter> which allows extra functionality:
+
+There are predefined export groups
+corresponding to each of the variants listed above.
+Importing one (and only one) of these groups will
+rename the functions (dropping the suffix) so that
+the functions in your namespace will be named C<sub> and C<gsub>
+but will reference the variation you specified.
+
+Surely it is more clear with examples:
+
+	package Local::WithCopy;
+	use String::Gsub::Simple -copy;
+	# now \&Local::WithCopy::gsub == \&String::Gsub::Simple::gsub_copy
+
+	package Local::WithModify;
+	use String::Gsub::Simple -modify;
+	# now \&Local::WithModify::gsub == \&String::Gsub::Simple::gsub_modify
+
+	package Local::WithContext;
+	use String::Gsub::Simple -context;
+	# now \&Local::WithContext::gsub == \&String::Gsub::Simple::gsub_context
+
+B<Note> that C<String::Gsub::Simple> does not actually have functions
+named C<sub> and C<gsub>, so you cannot do this:
+
+	$subbed = String::Gsub::Simple::gsub($string, $pattern, $replacement);
+
+But you are free to use the full names (with suffixes):
+
+	$subbed = String::Gsub::Simple::gsub_copy($string, $pattern, $replacement);
+	String::Gsub::Simple::gsub_modify($string, $pattern, $replacement);
+	String::Gsub::Simple::gsub_context($string, $pattern, $replacement);
+
+That is the magic of L<Sub::Exporter>.
+
+If you are not satisfied with this
+see L<Sub::Exporter> for other ways to get what you're looking for.
 
 =head1 BUGS AND LIMITATIONS
 
