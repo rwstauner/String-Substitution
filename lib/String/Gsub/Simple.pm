@@ -9,8 +9,6 @@ package String::Gsub::Simple;
 
 =cut
 
-# TODO: document/test replacement as sub rather than string
-
 use strict;
 use warnings;
 use Sub::Exporter 0.982;
@@ -262,6 +260,20 @@ It's probably best to use C<copy> or C<modify> explicitly
 but the choice is yours.
 
 =end :list
+
+Each version of each function takes three (scalar) arguments:
+
+=for :list
+1. string on which to perform the substitution
+2. search pattern (string or pre-compiled qr// object)
+3. replacement (string or coderef)
+
+Besides a string, the replacement can also be a coderef
+which will be called for each substitution
+and will receive an arrayref as its only argument.
+This arrayref is the value returned from L</last_match_vars>.
+
+	gsub($string, $pattern, sub { uc $_[0]->[1] });
 
 See L</FUNCTIONS> for more information about each one.
 
