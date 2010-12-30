@@ -1,5 +1,5 @@
 package String::Substitution;
-# ABSTRACT: Simple runtime [g]sub functions
+# ABSTRACT: Simple runtime string substitution functions
 
 =head1 SYNOPSIS
 
