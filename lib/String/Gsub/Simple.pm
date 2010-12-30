@@ -110,21 +110,25 @@ and the backslash will be removed (also counts for doubled backslashes):
 sub interpolate_match_vars {
 	my ($replacement, $matched) = @_;
 	my $string = $replacement;
+	# Handling backslash-escapes and variable interpolations
+	# in the same substitution (alternation) keeps track of the position
+	# in the string so that we don't have to count backslashes.
 	$string =~
 		s/
 			(?:
 				\\(.)                  # grab escaped characters (including $)
 			|
 				(?:
-					\$\{([1-9]\d*)\}   # match "${1}"
+					\$\{([1-9]\d*)\}   # match "${1}" (not unrelated '${0}')
 				|
-					\$  ([1-9]\d*)     # match "$1"
+					\$  ([1-9]\d*)     # match  "$1"  (not unrelated '$0')
 				)
 			)
 		/
 			defined $1
 				? $1                   # if something was escaped drop the \\
 				: $matched->[$2 || $3] # else use braced or unbraced number
+				                       # ($2 will never contain '0')
 		/xge;
 	return $string;
 }
