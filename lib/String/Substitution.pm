@@ -81,10 +81,10 @@ sub gsub_context {
 
 =func interpolate_match_vars
 
-	$interpolated = interpolate_match_vars($string, \@match_vars);
+	$interpolated = interpolate_match_vars($string, @match_vars);
 
 Replaces any digit variables in the string
-with the corresponding elements from the match_vars arrayref
+with the corresponding elements from the match_vars array
 (returned from L</last_match_vars>).
 
 Substitutes single and multiple digits such as C<$1> and C<${12}>.
@@ -107,6 +107,9 @@ and the backslash will be removed (also counts for doubled backslashes):
 
 This function is used when the substitution functions receive
 a string as the I<replacement> parameter.
+Essentially:
+
+	$interpolated = interpolate_match_vars($replacement, last_match_vars());
 
 =cut
 
