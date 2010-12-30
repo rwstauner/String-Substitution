@@ -81,7 +81,7 @@ sub gsub_context {
 
 =func interpolate_match_vars
 
-	$interpolated = interpolate($string, \@match_vars);
+	$interpolated = interpolate_match_vars($string, \@match_vars);
 
 Replaces any digit variables in the string
 with the corresponding elements from the match_vars arrayref
