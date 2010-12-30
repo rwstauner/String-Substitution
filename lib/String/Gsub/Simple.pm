@@ -263,6 +263,9 @@ I tried to use this, but when I couldn't get it to install
 I decided to polish up an old function I had written a while back
 and try to make it reusable.
 
+Plus I thought the implementation could be simpler.
+Hence the name.  I hope this is simple (at least to use).
+
 =end :list
 
 =cut
