@@ -108,7 +108,7 @@ and the backslash will be removed (also counts for doubled backslashes):
 =cut
 
 sub interpolate_match_vars {
-	my ($replacement, $matched) = @_;
+	my ($replacement, @matched) = @_;
 	my $string = $replacement;
 	# Handling backslash-escapes and variable interpolations
 	# in the same substitution (alternation) keeps track of the position
@@ -127,7 +127,7 @@ sub interpolate_match_vars {
 		/
 			defined $1
 				? $1                   # if something was escaped drop the \\
-				: $matched->[$2 || $3] # else use braced or unbraced number
+				: $matched[$2 || $3];  # else use braced or unbraced number
 				                       # ($2 will never contain '0')
 		/xge;
 	return $string;
@@ -135,29 +135,41 @@ sub interpolate_match_vars {
 
 =func last_match_vars
 
-	$match_vars = last_match_vars();
+	@match_vars = last_match_vars();
 
-Store the numeric match vars (C<$1>, C<$2>, ...) from the last C<m//>
-in an arrayref.
+Return a list of the numeric match vars
+(C<$1>, C<$2>, ...) from the last successful pattern match.
 
-The first element of the array is undef
+The first element of the array is C<undef>
 to make it simple and clear that the digits
 correspond to their index in the array:
 
-	$m = [undef, $1, $2]
-	$m->[1] ; # == $1
-	$m->[2] ; # == $2
+	@m = (undef, $1, $2);
+	$m[1] ; # == $1
+	$m[2] ; # == $2
 
 This can be useful when you want to save the captured groups from
-a previous C<m//> while doing another C<m//>.
+a previous pattern match so that you can do another
+(without losing the previous values).
 
 This function is used by the substitution functions.
+Specifically, it's result is passed to the I<replacement> coderef
+(which will be L</interpolate_match_vars> if I<replacement> is a string).
+
+In the future the first element
+may contain something more useful than C<undef>.
 
 =cut
 
 sub last_match_vars {
 	no strict 'refs';
-	[undef, map { ($$_) || '' } ( 1 .. $#- )];
+	return (
+		# fake $& with a substr to avoid performance penalty (see perlvar)
+		#(@_ ? substr($_[0], $-[0], $+[0] - $-[0]) : undef),
+		undef,
+		# $1, $2 ..
+		map { ($$_) || '' } ( 1 .. $#- )
+	);
 }
 
 # Return a sub that will get matched vars array passed to it
