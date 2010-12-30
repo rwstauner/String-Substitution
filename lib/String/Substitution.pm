@@ -89,21 +89,21 @@ with the corresponding elements from the match_vars array
 
 Substitutes single and multiple digits such as C<$1> and C<${12}>.
 
-A literal C<'$1'> can be escaped/backslashed in the normal way.
+A literal C<$1> can be escaped in the normal way.
 Any escaped (backslashed) characters will remain in the string
 and the backslash will be removed (also counts for doubled backslashes):
 
 	$string = 'the';
 	$pattern = 't(h)e';
 
-	# replacement => output
+	# 'replacement' => 'output'  # appearance when printed
 
-	# '-$1-'        => '-h-'
-	# '-\\$1-'      => '-$1-'
-	# '-\\\\$1-'    => '-\\h-'
-	# '-\\\\\\$1-'  => '-\\$1-'
-	# '-\\x\\$1-'   => '-x$1-'
-	# '-\\x\\\\$1-' => '-x\\h-'
+	# '-$1-'        => '-h-'     # prints: -h-
+	# '-\\$1-'      => '-$1-'    # prints: -$1-
+	# '-\\\\$1-'    => '-\\h-'   # prints: -\h-
+	# '-\\\\\\$1-'  => '-\\$1-'  # prints: -\$1-
+	# '-\\x\\$1-'   => '-x$1-'   # prints: -x$1-
+	# '-\\x\\\\$1-' => '-x\\h-'  # prints: -x\h-
 
 This function is used when the substitution functions receive
 a string as the I<replacement> parameter.
