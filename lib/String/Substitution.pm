@@ -277,7 +277,7 @@ Each version of each function takes three (scalar) arguments:
 
 =for :list
 1. string on which to perform the substitution
-2. search pattern (string or precompiled qr// pattern)
+2. search pattern (string or precompiled C<qr//> pattern)
 3. replacement (string or coderef)
 
 Besides a string, the replacement can also be a coderef
