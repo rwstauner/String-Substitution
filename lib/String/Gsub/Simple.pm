@@ -105,6 +105,9 @@ and the backslash will be removed (also counts for doubled backslashes):
 	# '-\\x\\$1-'   => '-x$1-'
 	# '-\\x\\\\$1-' => '-x\\h-'
 
+This function is used when the subtitution functions receive
+a string as the I<replacement> parameter.
+
 =cut
 
 sub interpolate_match_vars {
