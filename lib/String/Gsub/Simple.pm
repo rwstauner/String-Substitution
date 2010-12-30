@@ -174,7 +174,7 @@ sub _replacement_sub {
 	$subbed = sub_copy($string, $pattern, $replacement);
 	# $string unchanged
 
-Perform global substitution on a copy of the string and return the copy.
+Perform a single substitution on a copy of the string and return the copy.
 
 =cut
 
@@ -190,7 +190,7 @@ sub sub_copy {
 	sub_modify($string, $pattern, $replacement);
 	# $string has been modified
 
-Perform global substitution and modify the string.
+Perform a single substitution and modify the string.
 Returns the result of the C<s///> operator
 (number of substitutions performed if matched, empty string if not).
 
