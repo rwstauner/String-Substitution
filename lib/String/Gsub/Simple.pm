@@ -105,7 +105,7 @@ and the backslash will be removed (also counts for doubled backslashes):
 	# '-\\x\\$1-'   => '-x$1-'
 	# '-\\x\\\\$1-' => '-x\\h-'
 
-This function is used when the subtitution functions receive
+This function is used when the substitution functions receive
 a string as the I<replacement> parameter.
 
 =cut
@@ -239,7 +239,7 @@ sub sub_context {
 
 1;
 
-=for stopwords gsub runtime
+=for stopwords gsub runtime precompiled
 
 =head1 DESCRIPTION
 
@@ -284,7 +284,7 @@ Each version of each function takes three (scalar) arguments:
 
 =for :list
 1. string on which to perform the substitution
-2. search pattern (string or pre-compiled qr// object)
+2. search pattern (string or precompiled qr// pattern)
 3. replacement (string or coderef)
 
 Besides a string, the replacement can also be a coderef
