@@ -285,13 +285,31 @@ Each version of each function takes three (scalar) arguments:
 3. replacement (string or coderef)
 
 Besides a string, the replacement can also be a coderef
-which will be called for each substitution
-and will receive an arrayref as its only argument.
-This arrayref is the value returned from L</last_match_vars>.
+which will be called for each substitution.
+The regular pattern match variables will be available
+inside the coderef (C<$1>) as you would expect.
 
-	gsub($string, $pattern, sub { uc $_[0]->[1] });
+	# uppercase the first captured group in $pattern:
+	gsub($string, $pattern, sub { uc $1 });
 
-See L</FUNCTIONS> for more information about each one.
+For convenience, however, the coderef will be passed the list
+returned from L</last_match_vars>
+to allow you to do other pattern matching without losing those variables.
+
+	# can also use @_ (same as above)
+	gsub($string, $pattern, sub { uc $_[1] });
+	
+	# which is essentially:
+	# $string =~ s/$pattern/ $codref->( last_match_vars() );/e
+	
+	# which allows you to get complicated (an example from t/functions.t):
+	gsub(($string = 'mod'), '([a-z]+)',
+		sub { (my $t = $1) =~ s/(.)/ord($1)/ge; "$_[1] ($1) => $t" });
+	# produces 'mod (d) => 109111100'
+	# notice that $1 now produces 'd' while $_[1] still has 'mod'
+
+See L</FUNCTIONS> for more information
+about each individual substitution function.
 
 =head1 EXPORTS
 
