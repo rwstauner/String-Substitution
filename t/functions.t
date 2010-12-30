@@ -76,6 +76,14 @@ my @tests = (
 		'${16} ${14}${11}${12} $3 ${5}$6${15} /\\\\/\\\\${11}${13} for \\$6? or $\\7',
 		{ 'i have green watermelons. do you?' =>
 		 ['you sell a red /\\/\\elon for $6? or $7?']}],
+
+	['t(h)e', sub { "cherry" }, {the => ['cherry'], 'the the' => ['cherry the', 'cherry cherry']}],
+	['t(h)e', sub { uc $_[1] }, {the => ['H'], 'the the' => ['H the', 'H H']}],
+	['(t(h)e)', sub { ucfirst $_[1] . uc $2 }, {the => ['TheH'], 'the the' => ['TheH the', 'TheH TheH']}],
+	['^(the)', sub { (my $t = $1) =~ s/([a-z])/\U$1/g; "\$_[1] $_[1] \$1 $1 $t" }, {the => ['$_[1] the $1 e THE']}],
+	['([a-z]+)', sub { (my $t = $1) =~ s/(.)/ord($1)/ge; "$_[1] ($1) => $t" }, {mod => ['mod (d) => 109111100']}],
+	['([a-z]+)', sub { scalar reverse uc $1 }, {the => ['EHT'], 'the-the' => ['EHT-the', 'EHT-EHT']}],
+	['(\w+)', sub { join('', ('!') x length $_[1]) }, {'the' => ['!!!'], 'the-the' => ['!!!-the', '!!!-!!!']}],
 );
 
 sub sum { my $s = 0; $s += $_ for @_; $s }
