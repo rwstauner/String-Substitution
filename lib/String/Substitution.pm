@@ -151,8 +151,8 @@ to make it simple and clear that the digits
 correspond to their index in the array:
 
 	@m = (undef, $1, $2);
-	$m[1] ; # == $1
-	$m[2] ; # == $2
+	$m[1]; # same as $1
+	$m[2]; # same as $2
 
 This can be useful when you want to save the captured groups from
 a previous pattern match so that you can do another
