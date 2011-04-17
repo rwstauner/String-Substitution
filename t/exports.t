@@ -1,13 +1,13 @@
 use strict;
 use warnings;
-# require + (c, m, c) * (g + s) + none + all
-use Test::More tests => 1 + (3 * 2) + 1 + 1;
+# ((c, m, c) * (g + s)) + none + all
+use Test::More tests => (3 * 2) + 1 + 1;
 
 # test that we set up Sub::Exporter correctly
 
 my $testmodprefix = 'Local::Test_';
 my $mod = 'String::Substitution';
-require_ok($mod);
+eval "require $mod" or die $@;
 
 foreach my $suffix ( qw(copy modify context) ){
 	my $testmod = "${testmodprefix}_${suffix}";
