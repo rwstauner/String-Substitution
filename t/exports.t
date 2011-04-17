@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 # ((c, m, c) * (g + s)) + none + all
-use Test::More tests => (3 * 2) + 1 + 1;
+use Test::More 0.96 tests => (3 * 2) + 1 + 1;
 
 # test that we set up Sub::Exporter correctly
 

@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More;
+use Test::More 0.96;
 use String::Substitution ();
 
 # [pattern, replacement, {in => [sub1, sub2, finalsub], nosub => []}, (# of warnings for uninitialized)]
