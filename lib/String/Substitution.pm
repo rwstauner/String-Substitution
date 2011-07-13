@@ -209,7 +209,7 @@ Returns the result of the C<s///> operator
 =cut
 
 sub sub_modify {
-	my ($string, $pattern, $replacement) = @_;
+  my ( undef, $pattern, $replacement ) = @_;
 	return $_[0] =~ s/$pattern/
 		_replacement_sub($replacement)->(last_match_vars());/e;
 }
