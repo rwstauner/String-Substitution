@@ -1,3 +1,6 @@
+use strict;
+use warnings;
+
 package String::Substitution;
 # ABSTRACT: Simple runtime string substitution functions
 
@@ -9,8 +12,6 @@ package String::Substitution;
 
 =cut
 
-use strict;
-use warnings;
 use Sub::Exporter 0.982;
 {
 	my $exports = {
