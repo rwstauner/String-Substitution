@@ -161,7 +161,7 @@ may contain something more useful than C<undef>.
 =cut
 
 sub last_match_vars {
-	no strict 'refs';
+	no strict 'refs'; ## no critic
 	return (
 		# fake $& with a substr to avoid performance penalty (see perlvar)
 		#(@_ ? substr($_[0], $-[0], $+[0] - $-[0]) : undef),
