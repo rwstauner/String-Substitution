@@ -4,14 +4,6 @@ use warnings;
 package String::Substitution;
 # ABSTRACT: Simple runtime string substitution functions
 
-=head1 SYNOPSIS
-
-	use String::Substitution -copy;
-
-	my $subbed = gsub($string, $pattern, $replacement);
-
-=cut
-
 use Sub::Exporter 0.982;
 {
 	my $exports = {
@@ -244,6 +236,15 @@ sub sub_context {
 1;
 
 =for stopwords gsub runtime precompiled
+
+=for test_synopsis
+my ($string, $pattern, $replacement);
+
+=head1 SYNOPSIS
+
+  use String::Substitution -copy;
+
+  my $subbed = gsub($string, $pattern, $replacement);
 
 =head1 DESCRIPTION
 
