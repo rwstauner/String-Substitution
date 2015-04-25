@@ -2,6 +2,8 @@ Revision history for String::Substitution
 
 {{$NEXT}}
 
+1.002     2015-04-25T05:29:10Z
+
   - Fix bug returning '' in place of a matched '0' [rt-103918].
     Thanks to Håkon Hægland and ikegami for reporting!
 
