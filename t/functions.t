@@ -85,6 +85,9 @@ my @tests = (
   ['([a-z]+)', sub { (my $t = $1) =~ s/(.)/ord($1)/ge; "$_[1] ($1) => $t" }, {mod => ['mod (d) => 109111100']}],
   ['([a-z]+)', sub { scalar reverse uc $1 }, {the => ['EHT'], 'the-the' => ['EHT-the', 'EHT-EHT']}],
   ['(\w+)', sub { join('', ('!') x length $_[1]) }, {'the' => ['!!!'], 'the-the' => ['!!!-the', '!!!-!!!']}],
+
+  # Test a match that contains a false value ('0').
+  ['(\d)', '$1', {'0' => ['0'], '1' => ['1']}],
 );
 
 sub sum { my $s = 0; $s += $_ for @_; $s }
